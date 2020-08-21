@@ -42,7 +42,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mydb`.`DISCOUNT`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`DISCOUNT` (
+CREATE TABLE IF NOT EXISTS `DISCOUNT` (
   `discount_id` INT NOT NULL,
   `start_time` TIMESTAMP(6) NOT NULL,
   `end_time` TIMESTAMP(6) NULL,
@@ -78,15 +78,15 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`PROVIDE`
+-- Table `mydb`.`IMPORT_COUDON`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `PROVIDE` (
+CREATE TABLE IF NOT EXISTS `IMPORT_COUDON` (
   `product_id` INT NOT NULL,
-  `PROVIDER_provider_id` INT NOT NULL,
+  `provider_id` INT NOT NULL,
   `number` INT NULL,
   `note` VARCHAR(45) NULL,
   INDEX `fk_PROVIDE_PRODUCT_idx` (`product_id` ASC) VISIBLE,
-  INDEX `fk_PROVIDE_PROVIDER1_idx` (`PROVIDER_provider_id` ASC) VISIBLE)
+  INDEX `fk_PROVIDE_PROVIDER1_idx` (`provider_id` ASC) VISIBLE)
 ENGINE = MRG_MyISAM
 DEFAULT CHARACTER SET = utf8mb4;
 
@@ -132,7 +132,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mydb`.`MARKETING_ARTICLE`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`MARKETING_ARTICLE` (
+CREATE TABLE IF NOT EXISTS `MARKETING_ARTICLE` (
   `article_id` INT NOT NULL AUTO_INCREMENT,
   `provider_id` INT NOT NULL,
   `url_image` VARCHAR(45) NULL,
