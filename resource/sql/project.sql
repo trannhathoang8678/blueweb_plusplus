@@ -17,7 +17,7 @@ USE `mydb` ;
 -- -----------------------------------------------------
 -- Table `mydb`.`PROVIDER`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `PROVIDER` (
+CREATE TABLE IF NOT EXISTS `mydb`.`PROVIDER` (
   `provider_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `phone` CHAR(10) NULL,
@@ -28,13 +28,33 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
+-- Table `mydb`.`MAKER`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`MAKER` (
+  `maker_id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `year_create` INT NULL,
+  `place_create` VARCHAR(45) NULL,
+  PRIMARY KEY (`maker_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
 -- Table `mydb`.`TYPE`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `TYPE` (
+CREATE TABLE IF NOT EXISTS `mydb`.`TYPE` (
   `type_id` INT NOT NULL AUTO_INCREMENT,
-  `maker` VARCHAR(45) NOT NULL,
+  `maker_id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
   `product_line` VARCHAR(45) NULL,
-  PRIMARY KEY (`type_id`))
+  PRIMARY KEY (`type_id`),
+  INDEX `fk_TYPE_MAKER1_idx` (`maker_id` ASC) VISIBLE,
+  CONSTRAINT `fk_TYPE_MAKER1`
+    FOREIGN KEY (`maker_id`)
+    REFERENCES `mydb`.`MAKER` (`maker_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
@@ -42,25 +62,30 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mydb`.`DISCOUNT`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DISCOUNT` (
+CREATE TABLE IF NOT EXISTS `mydb`.`DISCOUNT` (
   `discount_id` INT NOT NULL,
   `start_time` TIMESTAMP(6) NOT NULL,
   `end_time` TIMESTAMP(6) NULL,
+  `percent` INT(100) NOT NULL,
   PRIMARY KEY (`discount_id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`PRODUCT`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `PRODUCT` (
+CREATE TABLE IF NOT EXISTS `mydb`.`PRODUCT` (
   `product_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
+  `discount_id` INT NOT NULL,
+  `type_id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `price` DECIMAL(16,3) NOT NULL,
   `specification` TEXT NULL,
   `url_image` VARCHAR(45) NULL,
-  `type_id` INT NOT NULL,
-  `discount_id` INT NOT NULL,
-  PRIMARY KEY (`product_id`, `discount_id`),
+  `number` VARCHAR(45) NULL,
+  `instalment` TINYINT(1) NULL,
+  PRIMARY KEY (`product_id`),
   INDEX `fk_PRODUCT_TYPE1_idx` (`type_id` ASC) VISIBLE,
   INDEX `fk_PRODUCT_DISCOUNT1_idx` (`discount_id` ASC) VISIBLE,
   CONSTRAINT `fk_PRODUCT_TYPE1`
@@ -78,13 +103,14 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`IMPORT_COUDON`
+-- Table `mydb`.`IMPORT`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `IMPORT_COUDON` (
+CREATE TABLE IF NOT EXISTS `mydb`.`IMPORT` (
   `product_id` INT NOT NULL,
   `provider_id` INT NOT NULL,
   `number` INT NULL,
   `note` VARCHAR(45) NULL,
+  `price` DECIMAL NOT NULL,
   INDEX `fk_PROVIDE_PRODUCT_idx` (`product_id` ASC) VISIBLE,
   INDEX `fk_PROVIDE_PROVIDER1_idx` (`provider_id` ASC) VISIBLE)
 ENGINE = MRG_MyISAM
@@ -94,7 +120,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mydb`.`CUSTOMER`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CUSTOMER` (
+CREATE TABLE IF NOT EXISTS `mydb`.`CUSTOMER` (
   `customer_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `note` VARCHAR(45) NULL,
@@ -106,20 +132,16 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mydb`.`ORDER`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ORDER` (
-  `product_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `mydb`.`ORDER` (
+  `order_id` INT NOT NULL AUTO_INCREMENT,
   `customer_id` INT NOT NULL,
   `payment_mode` VARCHAR(45) NULL,
   `option` VARCHAR(45) NULL,
   `number_product` INT NULL,
   `address` VARCHAR(45) NULL,
-  INDEX `fk_ORDER_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
+  `created_time` TIMESTAMP(6) NULL DEFAULT CURRENT TIMESTAMP,
   INDEX `fk_ORDER_CUSTOMER1_idx` (`customer_id` ASC) VISIBLE,
-  CONSTRAINT `fk_ORDER_PRODUCT1`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `mydb`.`PRODUCT` (`product_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  PRIMARY KEY (`order_id`),
   CONSTRAINT `fk_ORDER_CUSTOMER1`
     FOREIGN KEY (`customer_id`)
     REFERENCES `mydb`.`CUSTOMER` (`customer_id`)
@@ -132,7 +154,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mydb`.`MARKETING_ARTICLE`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `MARKETING_ARTICLE` (
+CREATE TABLE IF NOT EXISTS `mydb`.`MARKETING_ARTICLE` (
   `article_id` INT NOT NULL AUTO_INCREMENT,
   `provider_id` INT NOT NULL,
   `url_image` VARCHAR(45) NULL,
@@ -153,13 +175,13 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mydb`.`REVIEW`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `REVIEW` (
+CREATE TABLE IF NOT EXISTS `mydb`.`REVIEW` (
   `customer_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
   `RATE` DECIMAL(1,1) NULL,
   `url_image` VARCHAR(45) NULL,
   `content` TEXT NULL,
   `created_time` TIMESTAMP(6) NULL DEFAULT CURRENT TIMESTAMP,
-  `product_id` INT NOT NULL,
   PRIMARY KEY (`customer_id`),
   INDEX `fk_REVIEW_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_REVIEW_CUSTOMER1`
@@ -179,20 +201,58 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mydb`.`ARTICLE_PRODUCT`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ARTICLE_PRODUCT` (
-  `MARKETING_ARTICLE_article_id` INT NOT NULL,
-  `PRODUCT_product_id` INT NOT NULL,
-  `PRODUCT_discount_id` INT NOT NULL,
-  INDEX `fk_ARTICLE_PRODUCT_MARKETING_ARTICLE1_idx` (`MARKETING_ARTICLE_article_id` ASC) VISIBLE,
-  INDEX `fk_ARTICLE_PRODUCT_PRODUCT1_idx` (`PRODUCT_product_id` ASC, `PRODUCT_discount_id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `mydb`.`ARTICLE_PRODUCT` (
+  `article_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  INDEX `fk_ARTICLE_PRODUCT_MARKETING_ARTICLE1_idx` (`article_id` ASC) VISIBLE,
+  INDEX `fk_ARTICLE_PRODUCT_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_ARTICLE_PRODUCT_MARKETING_ARTICLE1`
-    FOREIGN KEY (`MARKETING_ARTICLE_article_id`)
+    FOREIGN KEY (`article_id`)
     REFERENCES `mydb`.`MARKETING_ARTICLE` (`article_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_ARTICLE_PRODUCT_PRODUCT1`
-    FOREIGN KEY (`PRODUCT_product_id` , `PRODUCT_discount_id`)
-    REFERENCES `mydb`.`PRODUCT` (`product_id` , `discount_id`)
+    FOREIGN KEY (`product_id`)
+    REFERENCES `mydb`.`PRODUCT` (`product_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`PRODUCT_ORDER`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`PRODUCT_ORDER` (
+  `ORDER_order_id` INT NOT NULL,
+  `PRODUCT_product_id` INT NOT NULL,
+  INDEX `fk_PRODUCT_ORDER_ORDER1_idx` (`ORDER_order_id` ASC) VISIBLE,
+  INDEX `fk_PRODUCT_ORDER_PRODUCT1_idx` (`PRODUCT_product_id` ASC) VISIBLE,
+  CONSTRAINT `fk_PRODUCT_ORDER_ORDER1`
+    FOREIGN KEY (`ORDER_order_id`)
+    REFERENCES `mydb`.`ORDER` (`order_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_PRODUCT_ORDER_PRODUCT1`
+    FOREIGN KEY (`PRODUCT_product_id`)
+    REFERENCES `mydb`.`PRODUCT` (`product_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`HIGHLIGHT_PRODUCT`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`HIGHLIGHT_PRODUCT` (
+  `product_id` INT NOT NULL,
+  `display_id` INT NOT NULL,
+  INDEX `fk_HIGHLIGHT_PRODUCT_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
+  UNIQUE INDEX `display_id_UNIQUE` (`display_id` ASC) VISIBLE,
+  CONSTRAINT `fk_HIGHLIGHT_PRODUCT_PRODUCT1`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `mydb`.`PRODUCT` (`product_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
