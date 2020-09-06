@@ -227,6 +227,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`PRODUCT_ORDER` (
   `order_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   `number_product` INT NULL,
+  `price` DECIMAL(16,3) NULL,
   INDEX `fk_PRODUCT_ORDER_ORDER1_idx` (`order_id` ASC) VISIBLE,
   INDEX `fk_PRODUCT_ORDER_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_PRODUCT_ORDER_ORDER1`
