@@ -224,17 +224,18 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- Table `mydb`.`PRODUCT_ORDER`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`PRODUCT_ORDER` (
-  `ORDER_order_id` INT NOT NULL,
-  `PRODUCT_product_id` INT NOT NULL,
-  INDEX `fk_PRODUCT_ORDER_ORDER1_idx` (`ORDER_order_id` ASC) VISIBLE,
-  INDEX `fk_PRODUCT_ORDER_PRODUCT1_idx` (`PRODUCT_product_id` ASC) VISIBLE,
+  `order_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `number_product` INT NULL,
+  INDEX `fk_PRODUCT_ORDER_ORDER1_idx` (`order_id` ASC) VISIBLE,
+  INDEX `fk_PRODUCT_ORDER_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_PRODUCT_ORDER_ORDER1`
-    FOREIGN KEY (`ORDER_order_id`)
+    FOREIGN KEY (`order_id`)
     REFERENCES `mydb`.`ORDER` (`order_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_PRODUCT_ORDER_PRODUCT1`
-    FOREIGN KEY (`PRODUCT_product_id`)
+    FOREIGN KEY (`product_id`)
     REFERENCES `mydb`.`PRODUCT` (`product_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -243,14 +244,31 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`HIGHLIGHT_PRODUCT`
+-- Table `mydb`.`HOT_PRODUCT`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`HIGHLIGHT_PRODUCT` (
+CREATE TABLE IF NOT EXISTS `mydb`.`HOT_PRODUCT` (
   `product_id` INT NOT NULL,
-  `display_id` INT NOT NULL,
+  `order_display_id` INT NOT NULL,
   INDEX `fk_HIGHLIGHT_PRODUCT_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
-  UNIQUE INDEX `display_id_UNIQUE` (`display_id` ASC) VISIBLE,
+  UNIQUE INDEX `display_id_UNIQUE` (`order_display_id` ASC) VISIBLE,
   CONSTRAINT `fk_HIGHLIGHT_PRODUCT_PRODUCT1`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `mydb`.`PRODUCT` (`product_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`BIGSALE_PRODUCT`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`BIGSALE_PRODUCT` (
+  `product_id` INT NOT NULL,
+  `oder_display_id` INT NOT NULL,
+  INDEX `fk_BIGSALE_PRODUCT_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
+  UNIQUE INDEX `oder_display_id_UNIQUE` (`oder_display_id` ASC) VISIBLE,
+  CONSTRAINT `fk_BIGSALE_PRODUCT_PRODUCT1`
     FOREIGN KEY (`product_id`)
     REFERENCES `mydb`.`PRODUCT` (`product_id`)
     ON DELETE NO ACTION
