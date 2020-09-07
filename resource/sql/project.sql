@@ -249,26 +249,13 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`HOT_PRODUCT` (
   `product_id` INT NOT NULL,
-  `order_display_id` INT NOT NULL,
-  INDEX `fk_HIGHLIGHT_PRODUCT_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
-  UNIQUE INDEX `display_id_UNIQUE` (`order_display_id` ASC) VISIBLE,
-  CONSTRAINT `fk_HIGHLIGHT_PRODUCT_PRODUCT1`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `mydb`.`PRODUCT` (`product_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`BIGSALE_PRODUCT`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`BIGSALE_PRODUCT` (
-  `product_id` INT NOT NULL,
-  `oder_display_id` INT NOT NULL,
+  `is_hot` TINYINT(1) NOT NULL,
+  `hot_display_id` INT NULL,
+  `is_bigsale` TINYINT(1) NOT NULL,
+  `bigsale_id` INT NULL,
   INDEX `fk_BIGSALE_PRODUCT_PRODUCT1_idx` (`product_id` ASC) VISIBLE,
-  UNIQUE INDEX `oder_display_id_UNIQUE` (`oder_display_id` ASC) VISIBLE,
+  UNIQUE INDEX `hot_display_id_UNIQUE` (`hot_display_id` ASC) VISIBLE,
+  UNIQUE INDEX `bigsale_id_UNIQUE` (`bigsale_id` ASC) VISIBLE,
   CONSTRAINT `fk_BIGSALE_PRODUCT_PRODUCT1`
     FOREIGN KEY (`product_id`)
     REFERENCES `mydb`.`PRODUCT` (`product_id`)
