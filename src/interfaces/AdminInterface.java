@@ -4,41 +4,31 @@ package interfaces;
 import java.math.BigDecimal;
 
 public class AdminInterface {
-    //display function
-    public void showAllProducts();
+    //product
+    public void addProduct(String name, int typeID, String specification, String url_image, int number, BigDecimal price, boolean installment, int discountID);
 
-    public void showHotProducts();
+    public boolean verifyProductName(String productName);
 
-    public void showBigsaleProducts();
+    public void updateProduct(String name, int typeID, String specification, String url_image, int number, BigDecimal price, boolean installment, int discountID);
 
-    public void showProductsInConditions(BigDecimal fromPrice, BigDecimal toPrice, String maker, String sort, boolean isInstallment);
+    public void deleteProduct(int productID);
 
-    //show MARKETING_ARTICLE
-    public void showAllArticles();
+    public void addArticle(int providderID, String name, String url_image, String text);
 
-    public void showProductInDetail(int id);
+    public boolean verifyArticle(String articleName);
 
-    public void showArticleInDetail(int id);
+    public void updateArticle(int providderID, String name, String url_image, String text);
 
-    public void showSameProducts(int idMainProduct);
+    public void deleteArticle(int articleID);
 
-    public void showOrdersOfCustomer(String phonenumber);
+    public void importCurrentProduct(int productID);
 
-    public void showProductsInOrder(int idOrder);
+    public void showAllImportBills();
 
-    public void showOrderInDetail(int idOrder);
+    public void updateImportBill(int productID, int number, BigDecimal price, String note);
 
-    //order
-    public void createOrderBill(String name, String phonenumber, String address);
+    public void addCustomer(String name, String phonenumber, String note);
 
-    public boolean isCustomerExist(String phonenumber);
-
-    public void createCustomer(String name, String phonenumber);
-
-    public void addProductToOrder(int idProduct);
-
-    public void increaseNumberOfProduct(int idProduct);
-
-    public void decreaseNumberOfProduct(int idProduct);
+    public boolean verifyCustomerPhonenumber(String phonenumber);
 
 }
