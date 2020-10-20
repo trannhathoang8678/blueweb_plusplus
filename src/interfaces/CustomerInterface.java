@@ -2,7 +2,7 @@ package interfaces;
 
 import java.math.BigDecimal;
 
-public class CustomerInterface {
+public interface CustomerInterface {
     //display function
     public void showAllProducts();
 
