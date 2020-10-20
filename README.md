@@ -17,6 +17,7 @@
 * Tăng số lượng sản phẩm (1 đơn vị)
 * Giảm số lượng sản phẩm (1 đơn vị)
 3. Chức năng quản lý
+* Thêm loại sản phẩm
 * Thêm sản phẩm
 * Cập nhật sản phẩm
 * Xóa sản phẩm
