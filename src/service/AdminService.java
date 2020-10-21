@@ -42,11 +42,11 @@ public class AdminService implements AdminInterface {
     }
 
     @Override
-    public void addProduct(String name, int typeID, String specification, String url_image, int number, BigDecimal price, boolean installment, int discountID) {
+    public void addProduct(String name, int typeID, String specification, String url_image, int number,int yearCreate,String placeCreate, BigDecimal price, short installment, int discountID) {
 
-        String addProduct = "INSERT INTO PRODUCT (name,typeID,specification,url_image,number,price,installment,discountID) VALUES ('"
+        String addProduct = "INSERT INTO PRODUCT (name,type_id,specification,url_image,number,year_create,place_create,price,instalment,discount_id) VALUES ('"
                 + name + "','" + typeID + "','" + specification + "','" + url_image + "','"
-                + number + "','" + price + "','" + installment + "','" + discountID ;
+                + number + "','" + yearCreate + "','" + placeCreate + "','"  + price + "','" + installment + "','" + discountID + "');";
         System.out.println(addProduct);
         try {
             Statement statement = connection.createStatement();

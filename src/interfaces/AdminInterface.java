@@ -7,8 +7,10 @@ import java.sql.Timestamp;
 public interface AdminInterface {
     //product
     public void addTypeOfProduct(String name, String maker, String productLine);
-    public void addPromotion(String startTime,String endTime,int percent);
-    public void addProduct(String name, int typeID, String specification, String url_image, int number, BigDecimal price, boolean installment, int discountID);
+
+    public void addPromotion(String startTime, String endTime, int percent);
+
+    public void addProduct(String name, int typeID, String specification, String url_image, int number,int yearCreate,String placeCreate, BigDecimal price, short installment, int discountID);
 
     public boolean verifyProductName(String productName);
 
