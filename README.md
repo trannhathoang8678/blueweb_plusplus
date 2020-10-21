@@ -18,6 +18,7 @@
 * Giảm số lượng sản phẩm (1 đơn vị)
 3. Chức năng quản lý
 * Thêm loại sản phẩm
+* Thêm chương trình quảng cáo
 * Thêm sản phẩm
 * Cập nhật sản phẩm
 * Xóa sản phẩm

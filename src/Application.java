@@ -1,5 +1,6 @@
 import service.AdminService;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,7 +19,9 @@ public class Application {
             try {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Hoangnt1@");
                 AdminService adminService = new AdminService(connection);
-                adminService.addTypeOfProduct("xps","dell","laptop");
+              //  adminService.addTypeOfProduct("xps","dell","laptop");
+             //   adminService.addProduct("P53s",1,"light","url_image",14,new BigDecimal(33190000.5),true,1);
+                adminService.addPromotion("2020-10-21 11:37:52","2020-10-21 11:37:52",40);
             }
             catch (SQLException e)
             {
