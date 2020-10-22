@@ -4,6 +4,7 @@ import interfaces.AdminInterface;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
@@ -32,7 +33,7 @@ public class AdminService implements AdminInterface {
     @Override
     public void addPromotion(String startTime, String endTime, int percent) {
         String addDiscount = "INSERT INTO DISCOUNT (start_time,end_time,percent) VALUES ('" + startTime + "','" + endTime + "','" + percent + "');";
-        System.out.println(addDiscount);
+      //  System.out.println(addDiscount);
         try {
             Statement statement = connection.createStatement();
             int rowAffected = statement.executeUpdate(addDiscount);
@@ -43,11 +44,15 @@ public class AdminService implements AdminInterface {
 
     @Override
     public void addProduct(String name, int typeID, String specification, String url_image, int number,int yearCreate,String placeCreate, BigDecimal price, short installment, int discountID) {
-
+        if(!verifyProductName(name))
+        {
+            System.out.println("This product name have existed");
+            return;
+        }
         String addProduct = "INSERT INTO PRODUCT (name,type_id,specification,url_image,number,year_create,place_create,price,instalment,discount_id) VALUES ('"
                 + name + "','" + typeID + "','" + specification + "','" + url_image + "','"
                 + number + "','" + yearCreate + "','" + placeCreate + "','"  + price + "','" + installment + "','" + discountID + "');";
-        System.out.println(addProduct);
+     //   System.out.println(addProduct);
         try {
             Statement statement = connection.createStatement();
             int rowAffected = statement.executeUpdate(addProduct);
@@ -58,7 +63,22 @@ public class AdminService implements AdminInterface {
 
     @Override
     public boolean verifyProductName(String productName) {
-        return true;
+        String getProductNameList = "SELECT name FROM PRODUCT";
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getProductNameList);
+            while(rs.next())
+            {
+                if(rs.getString(1).equals(productName))
+                    return false;
+            }
+            return true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
