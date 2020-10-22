@@ -14,7 +14,7 @@ public interface AdminInterface {
 
     public boolean verifyProductName(String productName);
 
-    public void updateProduct(String name, int typeID, String specification, String url_image, int number, BigDecimal price, boolean installment, int discountID);
+    public void updateProduct(int id,String name, int typeID, String specification, String url_image, int number,int yearCreate,String placeCreate, BigDecimal price, short installment, int discountID);
 
     public void deleteProduct(int productID);
 

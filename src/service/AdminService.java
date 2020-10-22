@@ -43,7 +43,8 @@ public class AdminService implements AdminInterface {
     }
 
     @Override
-    public void addProduct(String name, int typeID, String specification, String url_image, int number,int yearCreate,String placeCreate, BigDecimal price, short installment, int discountID) {
+    public void addProduct(String name, int typeID, String specification, String url_image,
+                           int number,int yearCreate,String placeCreate, BigDecimal price, short installment, int discountID) {
         if(!verifyProductName(name))
         {
             System.out.println("This product name have existed");
@@ -82,7 +83,67 @@ public class AdminService implements AdminInterface {
     }
 
     @Override
-    public void updateProduct(String name, int typeID, String specification, String url_image, int number, BigDecimal price, boolean installment, int discountID) {
+    public void updateProduct(int id,String name, int typeID, String specification, String url_image,
+                              int number,int yearCreate,String placeCreate, BigDecimal price, short installment, int discountID) {
+        // if you don't want to change information, write null ( for string) or -1 (for integer)
+        String updateProductInfo = "UPDATE PRODUCT SET ";
+        if(name != null)
+        {
+            updateProductInfo += "name='" + name + "',";
+        }
+        if(typeID != -1)
+        {
+            updateProductInfo += "type_id='" + typeID + "',";
+        }
+        if(specification != null)
+        {
+            updateProductInfo += "specification='" + specification + "',";
+        }
+        if(url_image != null)
+        {
+            updateProductInfo += "url_image='" + url_image + "',";
+        }
+        if(number != -1)
+        {
+            updateProductInfo += "number='" + number + "',";
+        }
+        if(yearCreate != -1)
+        {
+            updateProductInfo += "year_create='" + yearCreate + "',";
+        }
+        if(placeCreate != null)
+        {
+            updateProductInfo += "place_create='" + placeCreate + "',";
+        }
+        if(price != null)
+        {
+            updateProductInfo += "price='" + price + "',";
+        }
+        if(installment != -1)
+        {
+            updateProductInfo += "installment='" + installment + "',";
+        }
+        if(discountID != -1)
+        {
+            updateProductInfo += "discount_id='" + discountID + "',";
+        }
+        if(updateProductInfo.equals("UPDATE PRODUCT SET "))
+        {
+            System.out.println("No information change");
+            return;
+        }
+        updateProductInfo = updateProductInfo.substring(0,updateProductInfo.length()-1);
+        updateProductInfo += " WHERE product_id ='" + id + "';";
+        System.out.println(updateProductInfo);
+        try
+        {
+            Statement statement = connection.createStatement();
+            int rowAffected = statement.executeUpdate(updateProductInfo);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
