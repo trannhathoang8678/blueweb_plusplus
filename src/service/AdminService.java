@@ -3,10 +3,7 @@ package service;
 import interfaces.AdminInterface;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 
 public class AdminService implements AdminInterface {
     private Connection connection;
@@ -17,7 +14,25 @@ public class AdminService implements AdminInterface {
 
     public AdminService() {
     }
+    public void turnOffSafeMode() {
+        String sql = "SET sql_safe_updates = 0";
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void turnOnSafeMode() {
+        String sql = "SET sql_safe_updates = 1";
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void addTypeOfProduct(String name, String maker, String productLine) {
         String addProductType = "INSERT INTO TYPE (name,maker,product_line) VALUES ('" + name + "','" + maker + "','" + productLine + "');";
@@ -148,6 +163,16 @@ public class AdminService implements AdminInterface {
 
     @Override
     public void deleteProduct(int productID) {
+        //turn off safe_mode before delete
+        String deleteProductEntity = "DELETE FROM PRODUCT WHERE product_id='" + productID +"';";
+        try{
+            Statement statement = connection.createStatement();
+            statement.execute(deleteProductEntity);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
