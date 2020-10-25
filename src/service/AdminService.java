@@ -176,7 +176,16 @@ public class AdminService implements AdminInterface {
     }
 
     @Override
-    public void addArticle(int providderID, String name, String url_image, String text) {
+    public void addArticle(int providderID, String name, String url_image, String content) {
+        String addMarketingArticle = "INSERT INTO MARKETING_ARTICLE (provider_id,name,url_image,content) VALUES ('" + providderID + "','"
+                + name + "','" + url_image + "','" + content + "');";
+         System.out.println(addMarketingArticle);
+        try {
+            Statement statement = connection.createStatement();
+            int rowAffected = statement.executeUpdate(addMarketingArticle);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

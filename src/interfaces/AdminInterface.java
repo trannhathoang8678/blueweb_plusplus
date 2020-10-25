@@ -18,7 +18,7 @@ public interface AdminInterface {
 
     public void deleteProduct(int productID);
 
-    public void addArticle(int providderID, String name, String url_image, String text);
+    public void addArticle(int providderID, String name, String url_image, String Content);
 
     public boolean verifyArticle(String articleName);
 
