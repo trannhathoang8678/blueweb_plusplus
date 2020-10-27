@@ -86,9 +86,10 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`IMPORT`
+-- Table `mydb`.`IMPORT_BILL`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`IMPORT` (
+CREATE TABLE IF NOT EXISTS `mydb`.`IMPORT_BILL` (
+  `bill_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   `provider_id` INT NOT NULL,
   `number` INT NULL,
@@ -96,7 +97,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`IMPORT` (
   `note` VARCHAR(45) NULL,
   `created_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX `fk_PROVIDE_PRODUCT_idx` (`product_id` ASC),
-  INDEX `fk_PROVIDE_PROVIDER1_idx` (`provider_id` ASC))
+  INDEX `fk_PROVIDE_PROVIDER1_idx` (`provider_id` ASC),
+  PRIMARY KEY (`bill_id`))
 ENGINE = MRG_MyISAM
 DEFAULT CHARACTER SET = utf8mb4;
 
@@ -251,3 +253,4 @@ DEFAULT CHARACTER SET = utf8mb4;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+

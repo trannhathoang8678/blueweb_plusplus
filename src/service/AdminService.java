@@ -177,6 +177,11 @@ public class AdminService implements AdminInterface {
 
     @Override
     public void addArticle(int providderID, String name, String url_image, String content) {
+        if(!verifyArticle(name))
+        {
+            System.out.println("This article name have already existed");
+            return;
+        }
         String addMarketingArticle = "INSERT INTO MARKETING_ARTICLE (provider_id,name,url_image,content) VALUES ('" + providderID + "','"
                 + name + "','" + url_image + "','" + content + "');";
          System.out.println(addMarketingArticle);
@@ -190,19 +195,150 @@ public class AdminService implements AdminInterface {
 
     @Override
     public boolean verifyArticle(String articleName) {
-        return true;
+        String getArticleNameList = "SELECT name FROM MARKETING_ARTICLE";
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getArticleNameList);
+            while(rs.next())
+            {
+                if(rs.getString(1).equals(articleName))
+                    return false;
+            }
+            return true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
-    public void updateArticle(int providderID, String name, String url_image, String text) {
+    public void updateArticle(int articleID,int providerID, String name, String url_image, String content) {
+        String updateArticleInfo = "UPDATE MARKETING_ARTICLE SET ";
+        if(name != null)
+        {
+            updateArticleInfo += "name='" + name + "',";
+        }
+        if(providerID != -1)
+        {
+            updateArticleInfo += "provider_id" + providerID + ",";
+        }
+        if(url_image != null)
+        {
+            updateArticleInfo += "url_image='" + url_image + "',";
+        }
+        if(content != null)
+        {
+            updateArticleInfo += "content='" + content + "',";
+        }
+        if(updateArticleInfo.equals("UPDATE PRODUCT SET "))
+        {
+            System.out.println("No information change");
+            return;
+        }
+        updateArticleInfo = updateArticleInfo.substring(0,updateArticleInfo.length()-1);
+        updateArticleInfo += " WHERE article_id ='" + articleID + "';";
+        //System.out.println(updateArticleInfo);
+        try
+        {
+            Statement statement = connection.createStatement();
+            int rowAffected = statement.executeUpdate(updateArticleInfo);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteArticle(int articleID) {
+        String deleteArticleEntity = "DELETE FROM MARKETING_ARTICLE WHERE article_id='" + articleID +"';";
+        try{
+            Statement statement = connection.createStatement();
+            statement.execute(deleteArticleEntity);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void importCurrentProduct(int productID) {
+    public void addArticleProductRelationship(int articleID, int productID) {
+        if(!verifyArticleProductRelationship(articleID,productID))
+        {
+            System.out.println("This relationship has already existed");
+            return ;
+        }
+        String addRelationship = "INSERT INTO ARTICLE_PRODUCT  VALUES ('" + articleID + "','" + productID + "');" ;
+       //  System.out.println(addRelationship);
+        try {
+            Statement statement = connection.createStatement();
+            int rowAffected = statement.executeUpdate(addRelationship);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean verifyArticleProductRelationship(int articleID, int productID) {
+        String getRelationshipList = "SELECT * FROM ARTICLE_PRODUCT";
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(getRelationshipList);
+            while(rs.next())
+            {
+              //  System.out.println(rs.getInt(1) + " " + rs.getInt(2));
+                if(rs.getInt(1)==articleID&&rs.getInt(2)==productID)
+                    return false;
+            }
+            return true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    @Override
+    public void deleteArticleProductRelationship(int articleID, int productID) {
+        String deleteRelationship = "DELETE FROM ARTICLE_PRODUCT WHERE article_id='" + articleID +"' AND product_id=" + productID +";";
+        try{
+            Statement statement = connection.createStatement();
+            statement.execute(deleteRelationship);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void importCurrentProduct(int productID, int number, BigDecimal price, String note) {
+        String getProductNumber = "SELECT number FROM PRODUCT WHERE product_id=" + productID + ";";
+        String importProduct = "UPDATE PRODUCT SET number=";
+        try{
+            Statement statement = connection.createStatement();
+            ResultSet rs =statement.executeQuery(getProductNumber);
+            while(rs.next())
+            {
+                importProduct += (rs.getInt(1) + number) + " WHERE product_id=" + productID + ";";
+            }
+            statement.execute(importProduct);
+            createImportBill(productID,number,price,note);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createImportBill(int productID, int number, BigDecimal price, String note) {
+
     }
 
     @Override
@@ -210,7 +346,7 @@ public class AdminService implements AdminInterface {
     }
 
     @Override
-    public void updateImportBill(int productID, int number, BigDecimal price, String note) {
+    public void updateImportBill(int billID,int productID, int number, BigDecimal price, String note) {
     }
 
     @Override

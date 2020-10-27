@@ -23,8 +23,13 @@ public class Application {
                // adminService.addProduct("P53",1,"high performance","url_image",14,2019,"China",new BigDecimal(33190000.5),(short)1,1);
              //   adminService.addPromotion("2020-10-21 11:37:52","2020-10-21 11:37:52",40);
              //   adminService.updateProduct(2,null,-1,"light and durable",null,-1,2020,null,null,(short)-1,-1);
-                adminService.addArticle(1,"Choose laptop","ttt","hello world");
-            adminService.deleteProduct(2);
+                //adminService.addArticle(1,"Choose laptop","ttt","hello world");
+          //      adminService.updateArticle(1,-1,"hello","2%3f","hello world");
+         //       adminService.deleteArticle(2);
+          //  adminService.deleteProduct(2);
+          //      adminService.addArticleProductRelationship(1,1);
+         //       adminService.deleteArticleProductRelationship(1,1);
+                adminService.importCurrentProduct(1,2);
             }
             catch (SQLException e)
             {
