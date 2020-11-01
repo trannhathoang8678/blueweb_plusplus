@@ -10,7 +10,7 @@ public interface CustomerInterface {
 
     public void showBigsaleProducts();
 
-    public void showProductsInConditions(BigDecimal fromPrice, BigDecimal toPrice, String maker, String sort, boolean isInstallment);
+    public void showProductsInConditions(BigDecimal fromPrice, BigDecimal toPrice, String maker, String productLine, String sort, int isInstallment);
 
     //show MARKETING_ARTICLE
     public void showAllArticles();
@@ -19,25 +19,19 @@ public interface CustomerInterface {
 
     public void showArticleInDetail(int articleID);
 
-    public void showSameProducts(int mainProductID);
-
     public void showOrdersOfCustomer(String phonenumber);
 
     public void showProductsInOrder(int orderID);
 
-    public void showOrderInDetail(int orderID);
 
     //order
     public void createOrderBill(String name, String phonenumber, String address);
 
-    public boolean isCustomerExist(String phonenumber);
+    public void addProductsToOrder(int orderID, int productID, int number, String paymentMode, String option);
 
-    public void createCustomer(String name, String phonenumber);
+    public void updateNumberProductsOfOrder(int orderID, int productID, int number);
 
-    public void addProductToOrder(int productID);
+    public void deleteProductsInOrder(int orderID, int productID);
 
-    public void increaseNumberOfProduct(int productID);
-
-    public void decreaseNumberOfProduct(int productID);
 
 }

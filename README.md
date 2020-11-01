@@ -13,9 +13,9 @@
 * Hiển thị chi tiết đơn đặt hàng
 2. Chức năng đặt hàng
 * Tạo đơn đặt hàng
-* Thêm sản phẩm vào đơn đặt hàng
-* Tăng số lượng sản phẩm (1 đơn vị)
-* Giảm số lượng sản phẩm (1 đơn vị)
+* Thêm các sản phẩm vào đơn đặt hàng
+* Cập nhật số lượng sản phẩm trong đơn hàng
+* Xóa sản phẩm khỏi đơn hàng
 3. Chức năng quản lý
 * Thêm,cập nhật,xóa loại sản phẩm
 * Thêm,cập nhật,xóa chương trình quảng cáo

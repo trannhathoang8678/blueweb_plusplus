@@ -47,6 +47,6 @@ public interface AdminInterface {
     public void addCustomer(String name, String phonenumber, String note);
     public void updateCustomer(int id,String name,String phonenumber,String note);
     public void deleteCustomer(int id);
-    public boolean verifyCustomerPhonenumber(String phonenumber);
+    public int verifyCustomerPhonenumber(String phonenumber);
 
 }

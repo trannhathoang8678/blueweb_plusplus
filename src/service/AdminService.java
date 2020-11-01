@@ -463,8 +463,7 @@ public class AdminService implements AdminInterface {
 
     @Override
     public void addCustomer(String name, String phone, String note) {
-        if(!verifyCustomerPhonenumber(phone))
-        {
+        if (verifyCustomerPhonenumber(phone)!=0) {
             System.out.println("This phonenumber has already existed");
             return;
         }
@@ -519,23 +518,23 @@ public class AdminService implements AdminInterface {
     }
 
     @Override
-    public boolean verifyCustomerPhonenumber(String phonenumber) {
-        String getRelationshipList = "SELECT phone_number FROM CUSTOMER";
+    public int verifyCustomerPhonenumber(String phonenumber) {
+        String getRelationshipList = "SELECT phone_number,customer_id FROM CUSTOMER";
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(getRelationshipList);
             while (rs.next()) {
                 if (rs.getString(1).equals(phonenumber))
-                    return false;
+                    return rs.getInt(2);
             }
-            return true;
+            return 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
 
-    public void addHotProduct(int productID,int isHot, int hotDisplayID, int isBigsale,int bigsaleID) {
+    public void addHotProduct(int productID, int isHot, int hotDisplayID, int isBigsale, int bigsaleID) {
         // write 0 for false and 1 for true for isHot and isBigsale conditions
         // write -1 if product is not on display
         String addHotProductDisplay = "INSERT INTO HOT_PRODUCT (product_id,is_hot,hot_display_id,is_bigsale,bigsale_id) VALUES ('"
@@ -549,7 +548,7 @@ public class AdminService implements AdminInterface {
         }
     }
 
-    public void updateHotProduct( int productID,int isHot, int hotDisplayID, int isBigsale,int bigsaleID) {
+    public void updateHotProduct(int productID, int isHot, int hotDisplayID, int isBigsale, int bigsaleID) {
         // if you don't want to change information, write null ( for string) or -1 (for integer)
         String updateHotProductDisplay = "UPDATE HOT_PRODUCT SET ";
 
@@ -590,6 +589,4 @@ public class AdminService implements AdminInterface {
             e.printStackTrace();
         }
     }
-
-
 }
