@@ -463,7 +463,7 @@ public class AdminService implements AdminInterface {
 
     @Override
     public void addCustomer(String name, String phone, String note) {
-        if (verifyCustomerPhonenumber(phone)!=0) {
+        if (verifyCustomerPhonenumber(phone) != 0) {
             System.out.println("This phonenumber has already existed");
             return;
         }

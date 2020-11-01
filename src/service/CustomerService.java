@@ -187,7 +187,7 @@ public class CustomerService implements CustomerInterface {
     public void showProductsInOrder(int orderID) {
         String showProducts = "SELECT p.name,p.url_image,p.price,por.number_product FROM PRODUCT_ORDER por JOIN PRODUCT p ON por.product_id = p.product_id WHERE por.order_id=" + orderID + ";";
         try {
-           // System.out.println(showProducts);
+            // System.out.println(showProducts);
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(showProducts);
             while (rs.next()) {
@@ -262,7 +262,7 @@ public class CustomerService implements CustomerInterface {
     public void updateNumberProductsOfOrder(int orderID, int productID, int number) {
         String updateNumber = "UPDATE PRODUCT_ORDER SET number_product = " + number;
         updateNumber += " WHERE order_id =" + orderID + " AND product_id=" + productID + " ;";
-       // System.out.println(updateNumber);
+        // System.out.println(updateNumber);
         try {
             Statement statement = connection.createStatement();
             int rowAffected = statement.executeUpdate(updateNumber);

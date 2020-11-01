@@ -6,15 +6,24 @@ import java.sql.Timestamp;
 
 public interface AdminInterface {
     //product
-    public void addProvider(String name,String phone,String address);
-    public void updateProvider(int id,String name,String phone,String address);
+    public void addProvider(String name, String phone, String address);
+
+    public void updateProvider(int id, String name, String phone, String address);
+
     public void deleteProvider(int id);
+
     public void addTypeOfProduct(String name, String maker, String productLine);
-    public void updateTypeOfProduct(int id,String name,String make,String productLine);
+
+    public void updateTypeOfProduct(int id, String name, String make, String productLine);
+
     public void deleteTypeOfProduct(int id);
+
     public void addPromotion(String startTime, String endTime, int percent);
-    public void updatePromotion(int id,String startTime, String endTime, int percent);
+
+    public void updatePromotion(int id, String startTime, String endTime, int percent);
+
     public void deletePromotion(int id);
+
     public void addProduct(String name, int typeID, String specification, String url_image, int number, int yearCreate, String placeCreate, BigDecimal price, short installment, int discountID);
 
     public boolean verifyProductName(String productName);
@@ -37,16 +46,19 @@ public interface AdminInterface {
 
     public void deleteArticleProductRelationship(int articleID, int productID);
 
-    public void importCurrentProduct(int productID,int providerID, int number, BigDecimal price, String note);
+    public void importCurrentProduct(int productID, int providerID, int number, BigDecimal price, String note);
 
-    public void createImportBill(int productID,int providerID, int number, BigDecimal price, String note);
+    public void createImportBill(int productID, int providerID, int number, BigDecimal price, String note);
 
     public void showAllImportBills();
 
 
     public void addCustomer(String name, String phonenumber, String note);
-    public void updateCustomer(int id,String name,String phonenumber,String note);
+
+    public void updateCustomer(int id, String name, String phonenumber, String note);
+
     public void deleteCustomer(int id);
+
     public int verifyCustomerPhonenumber(String phonenumber);
 
 }
