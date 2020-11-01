@@ -17,15 +17,11 @@
 * Tăng số lượng sản phẩm (1 đơn vị)
 * Giảm số lượng sản phẩm (1 đơn vị)
 3. Chức năng quản lý
-* Thêm loại sản phẩm
-* Thêm chương trình quảng cáo
-* Thêm sản phẩm
-* Cập nhật sản phẩm
-* Xóa sản phẩm
-* Thêm bài viết
-* Cập nhật bài viết
-* Sửa bài viết
+* Thêm,cập nhật,xóa loại sản phẩm
+* Thêm,cập nhật,xóa chương trình quảng cáo
+* Thêm,cập nhật,xóa sản phẩm
+* Thêm,cập nhật,xóa bài viết
+* Thêm,cập nhật,xóa nhà cung cấp
 * Nhập hàng
 * Hiển thị toàn bộ đơn nhập hàng
-* Cập nhật đơn nhập hàng
-* Tạo tài khoản khách hàng
+* Thêm,cập nhật,xóa tài khoản khách hàng
