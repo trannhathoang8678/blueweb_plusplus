@@ -25,9 +25,9 @@ public interface CustomerInterface {
 
 
     //order
-    public void createOrderBill(String name, String phonenumber, String address);
+    public void createOrderBill(String name, String phonenumber,String paymentMode, String address);
 
-    public void addProductsToOrder(int orderID, int productID, int number, String paymentMode, String option);
+    public void addProductsToOrder(int orderID, int productID, int number, String option,BigDecimal price);
 
     public void updateNumberProductsOfOrder(int orderID, int productID, int number);
 

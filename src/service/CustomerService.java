@@ -173,10 +173,18 @@ public class CustomerService implements CustomerInterface {
         String showOrders = "SELECT order_id,address,created_time FROM `ORDER` WHERE customer_id=" + customerID + ";";
         try {
             Statement statement = connection.createStatement();
+            Statement statement1 = connection.createStatement();
             ResultSet rs = statement.executeQuery(showOrders);
+            ResultSet showPrice;
             while (rs.next()) {
-                System.out.println("OrderID : " + rs.getInt(1) + " address: " + rs.getString(2));
+                int orderID = rs.getInt(1);
+                System.out.println("OrderID : " + orderID + " address: " + rs.getString(2));
                 System.out.println("Created time: " + rs.getTimestamp(3));
+                String getPrice = "SELECT SUM(price) FROM PRODUCT_ORDER WHERE order_id=" + orderID + ";";
+              //  System.out.println(getPrice);
+                showPrice = statement1.executeQuery(getPrice);
+                while(showPrice.next())
+                System.out.println("Price of order: " + showPrice.getBigDecimal(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -185,7 +193,7 @@ public class CustomerService implements CustomerInterface {
 
     @Override
     public void showProductsInOrder(int orderID) {
-        String showProducts = "SELECT p.name,p.url_image,p.price,por.number_product FROM PRODUCT_ORDER por JOIN PRODUCT p ON por.product_id = p.product_id WHERE por.order_id=" + orderID + ";";
+        String showProducts = "SELECT p.name,p.url_image,por.price,por.number_product FROM PRODUCT_ORDER por JOIN PRODUCT p ON por.product_id = p.product_id WHERE por.order_id=" + orderID + ";";
         try {
             // System.out.println(showProducts);
             Statement statement = connection.createStatement();
@@ -200,13 +208,13 @@ public class CustomerService implements CustomerInterface {
     }
 
     @Override
-    public void createOrderBill(String name, String phonenumber, String address) {
+    public void createOrderBill(String name, String phonenumber,String paymentMode, String address) {
         int customerID = verifyCustomerPhonenumber(phonenumber);
         if (customerID == 0) {
             addCustomer(name, phonenumber, "new");
             customerID = verifyCustomerPhonenumber(phonenumber);
         }
-        String createBill = "INSERT INTO `ORDER` (customer_id,address) VALUES ('" + customerID + "','" + address + "');";
+        String createBill = "INSERT INTO `ORDER` (customer_id,payment_mode,address) VALUES ('" + customerID + "','" + paymentMode + "','" + address + "');";
         // System.out.println(createBill);
         try {
             Statement statement = connection.createStatement();
@@ -248,8 +256,8 @@ public class CustomerService implements CustomerInterface {
     }
 
     @Override
-    public void addProductsToOrder(int orderID, int productID, int number, String paymentMode, String option) {
-        String addProduct = "INSERT INTO PRODUCT_ORDER  VALUES ('" + orderID + "','" + productID + "','" + number + "','" + paymentMode + "','" + option + "');";
+    public void addProductsToOrder(int orderID, int productID, int number, String option,BigDecimal price) {
+        String addProduct = "INSERT INTO PRODUCT_ORDER  VALUES ('" + orderID + "','" + productID + "','" + number  + "','" + option + "','" + price + "');";
         // System.out.println(addProduct);
         try {
             Statement statement = connection.createStatement();
