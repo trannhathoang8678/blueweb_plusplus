@@ -16,10 +16,10 @@ public class Application {
                 System.out.println("MySQL Drive Driver Not Found");
                 return;
             }
-            System.out.println("MySQL JDBC Registered");
+           // System.out.println("MySQL JDBC Registered");
             Connection connection = null;
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "Hoangnt1@");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "hoangnt1@");
                 AdminService adminService = new AdminService(connection);
                 CustomerService customerService = new CustomerService(connection);
                 //adminService.addTypeOfProduct("xps","dell","laptop");
@@ -38,7 +38,7 @@ public class Application {
                 //  adminService.deleteProvider(1);
                 // adminService.updateTypeOfProduct(3,"nitro 5","Acer",null);
                 // adminService.deleteTypeOfProduct(4);
-                //  adminService.updatePromotion(2,null,"2020-10-29 11:37:52",-1);
+                //  adminService.up/home/raven/DocumentsdatePromotion(2,null,"2020-10-29 11:37:52",-1);
                 //  adminService.deletePromotion(3);
                 //    adminService.importCurrentProduct(1,1,6,new BigDecimal(32.5),"");
                 //   adminService.showAllImportBills();
